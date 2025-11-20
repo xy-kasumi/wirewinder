@@ -37,7 +37,7 @@ add_subdirectory(lvgl)
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(wirewinder main.c )
+add_executable(wirewinder main.c DEV_Config.c LCD_1in3.c)
 
 pico_set_program_name(wirewinder "wirewinder")
 pico_set_program_version(wirewinder "0.1")
@@ -49,7 +49,14 @@ pico_enable_stdio_usb(wirewinder 0)
 # Add the standard library to the build
 target_link_libraries(wirewinder
         pico_stdlib
+        hardware_spi
+        hardware_pwm
         lvgl)
+
+# TODO: I2C should be unused; cleanup later
+target_link_libraries(wirewinder
+        hardware_i2c)
+
 
 # Add the standard include files to the build
 target_include_directories(wirewinder PRIVATE
